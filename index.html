@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#12323b">
+  <meta name="description" content="Google Sheets 기반 통관정보 조회 MVP">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>통관 노트 | 품목 조회</title>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="통관 노트 홈">
+      <span class="brand-mark">關</span>
+      <span><strong>통관 노트</strong><small>CUSTOMS DESK</small></span>
+    </a>
+    <div class="sync-state"><i></i><span>Google Sheets 기준</span></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">PRODUCT CLEARANCE INDEX</p>
+        <h1>필요한 통관정보를<br><em>한 번에</em> 찾습니다.</h1>
+        <p class="hero-description">모델명, HS CODE, 배터리와 위험물 여부까지. 수입 전 확인해야 할 항목을 빠르게 조회하세요.</p>
+      </div>
+      <div class="stamp" aria-hidden="true"><span>2026</span><strong>IMPORT<br>READY</strong></div>
+    </section>
+
+    <section class="search-panel" aria-label="통관정보 검색">
+      <label class="search-box">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="모델넘버, 제품명, HS CODE 검색">
+        <kbd>⌘ K</kbd>
+      </label>
+      <div class="filter-row" id="filterRow">
+        <button class="filter active" data-filter="all">전체 품목 <b id="allCount">3</b></button>
+        <button class="filter" data-filter="danger">위험물</button>
+        <button class="filter" data-filter="battery">내장 배터리</button>
+        <button class="filter" data-filter="fta">협정세율 적용</button>
+      </div>
+    </section>
+
+    <section class="summary" aria-label="품목 요약">
+      <article><span>등록 품목</span><strong id="itemMetric">03</strong><small>items in sheet</small></article>
+      <article><span>위험물 확인</span><strong id="dangerMetric">02</strong><small>require attention</small></article>
+      <article><span>평균 협정세율</span><strong id="rateMetric">0.5<sup>%</sup></strong><small>China FTA rate</small></article>
+    </section>
+
+    <section class="results-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">CLEARANCE LIST</p><h2>조회 결과 <span id="resultCount">3</span></h2></div>
+        <button class="sheet-link" id="sheetButton">원본 시트 열기 <span>↗</span></button>
+      </div>
+      <div class="table-head" aria-hidden="true">
+        <span>품목</span><span>HS CODE</span><span>세율</span><span>통관 체크</span><span></span>
+      </div>
+      <div id="resultList" class="result-list" aria-live="polite"></div>
+      <div id="emptyState" class="empty-state" hidden>
+        <span>?</span><h3>일치하는 품목이 없습니다</h3><p>모델넘버나 HS CODE를 다시 확인해 주세요.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>통관 노트 MVP</span><p>데이터 기준: Google Sheets · 2026년 세율</p></footer>
+
+  <dialog id="detailDialog" class="detail-dialog">
+    <button class="dialog-close" aria-label="닫기">×</button>
+    <div id="detailContent"></div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
